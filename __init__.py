@@ -59,9 +59,14 @@ def activate_window(xid):
     if screen is not None:
         for win in screen.get_windows():
             if win.get_xid() == xid:
-                workspace = win.get_workspace()
-                if workspace is not None:
-                    workspace.activate(get_x_server_time())  # activate the workspace first
+                win_workspace = win.get_workspace()
+                current_workspace = screen.get_active_workspace()
+
+                if win_workspace is not None:
+                    if win_workspace != current_workspace:         # move to the current workspace
+                        win.move_to_workspace(current_workspace)
+                    # win_workspace.activate(get_x_server_time())  # activate the raw workspace
+                
                 win.activate(get_x_server_time())
 
 def close_window(xid):
