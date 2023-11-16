@@ -119,7 +119,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
         # info(windows)
         
         for win in windows:
-            window_title = "Ⓦ " + win['title']
+            window_title = win['title']
             workspace_name = win['workspace_name']
             app_name = win['app_name']
             xid = win['xid']
