@@ -63,9 +63,9 @@ def activate_window(xid):
                 current_workspace = screen.get_active_workspace()
 
                 if win_workspace is not None:
-                    if win_workspace != current_workspace:         # move to the current workspace
-                        win.move_to_workspace(current_workspace)
-                    # win_workspace.activate(get_x_server_time())  # activate the raw workspace
+                    # if win_workspace != current_workspace:         # move to the current workspace
+                    #     win.move_to_workspace(current_workspace)
+                    win_workspace.activate(get_x_server_time())  # activate the raw workspace
                 
                 win.activate(get_x_server_time())
 
