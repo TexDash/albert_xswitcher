@@ -29,6 +29,11 @@ def is_hidden_window(window):
     state = window.get_state()
     return state & Wnck.WindowState.SKIP_PAGER or state & Wnck.WindowState.SKIP_TASKLIST
 
+def get_window_appname(window):
+    # app_name = window.get_application().get_name().split(' - ')[-1].lower()
+    app_name = window.get_class_group_name().lower()
+    return app_name
+
 @cached(ttl=2)
 def get_window_list(cache_dir):
     windows = []
@@ -39,8 +44,7 @@ def get_window_list(cache_dir):
                 title = win.get_name()
                 xid = win.get_xid()
                 workspace_name = win.get_workspace().get_name()
-                app_name = win.get_application().get_name()
-                app_name = app_name.split(' - ')[-1]
+                app_name = get_window_appname(win)
                 windows.append({
                     "title": title,
                     "workspace_name": workspace_name,
@@ -59,14 +63,6 @@ def activate_window(xid):
     if screen is not None:
         for win in screen.get_windows():
             if win.get_xid() == xid:
-                win_workspace = win.get_workspace()
-                current_workspace = screen.get_active_workspace()
-
-                if win_workspace is not None:
-                    # if win_workspace != current_workspace:         # move to the current workspace
-                    #     win.move_to_workspace(current_workspace)
-                    win_workspace.activate(get_x_server_time())  # activate the raw workspace
-                
                 win.activate(get_x_server_time())
 
 def close_window(xid):
@@ -80,7 +76,7 @@ def close_all_window(app_name):
     screen = Wnck.Screen.get_default()
     if screen is not None:
         for win in screen.get_windows():
-            if win.get_application().get_name().endswith(app_name):
+            if get_window_appname(win) == app_name:
                 win.close(get_x_server_time())
 
 def retrieve_or_save_icon(cache_dir, app_name, icon):
