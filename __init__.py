@@ -30,12 +30,6 @@ def is_hidden_window(window):
     state = window.get_state()
     return state & Wnck.WindowState.SKIP_PAGER or state & Wnck.WindowState.SKIP_TASKLIST
 
-def sync_gtk_events():
-    # adapted from: https://gist.github.com/adewes/6960581
-    while Gtk.events_pending():
-        Gtk.main_iteration()
-        time.sleep(0.01)
-
 def get_window_appname(window):
     # app_name = window.get_application().get_name().split(' - ')[-1].lower()
     app_name = window.get_class_group_name().lower()
@@ -70,7 +64,6 @@ def activate_window(xid):
     if screen is not None:
         for win in screen.get_windows():
             if win.get_xid() == xid:
-                sync_gtk_events()
                 win.activate(get_x_server_time())
 
 def close_window(xid):
