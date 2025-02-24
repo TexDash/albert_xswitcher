@@ -133,7 +133,7 @@ class Plugin(PluginInstance, GlobalQueryHandler):
                     item=StandardItem(
                         id=albert_id,
                         text=window_title,
-                        subtext=workspace_name,
+                        subtext= "🗔 " + workspace_name,
                         inputActionText=window_title,
                         iconUrls=[win["icon_url"]],
                         actions=[
